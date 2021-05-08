@@ -2,50 +2,50 @@ package com.example.wibugrams.Model;
 
 public class Post {
 
-    private String description;
-    private String imageurl;
-    private String postid;
-    private String publisher;
+    private String id;
+    private String content;
+    private String image;
+    private User user;
+
+    public Post(String id, String content, String image, User user) {
+        this.id = id;
+        this.content = content;
+        this.image = image;
+        this.user = user;
+    }
 
     public Post() {
     }
 
-    public Post(String description, String imageurl, String postid, String publisher) {
-        this.description = description;
-        this.imageurl = imageurl;
-        this.postid = postid;
-        this.publisher = publisher;
+    public String getId() {
+        return id;
     }
 
-    public String getDescription() {
-        return description;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public String getContent() {
+        return content;
     }
 
-    public String getImageurl() {
-        return imageurl;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public void setImageurl(String imageurl) {
-        this.imageurl = imageurl;
+    public String getImage() {
+        return image;
     }
 
-    public String getPostid() {
-        return postid;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public void setPostid(String postid) {
-        this.postid = postid;
+    public User getUser() {
+        return user;
     }
 
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

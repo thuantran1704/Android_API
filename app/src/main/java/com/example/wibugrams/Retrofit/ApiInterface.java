@@ -1,9 +1,11 @@
 package com.example.wibugrams.Retrofit;
 
 
+import com.example.wibugrams.Model.JSONResponsePost;
 import com.example.wibugrams.Model.JSONResponseUser;
 
 import retrofit2.Call;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -16,8 +18,8 @@ public interface ApiInterface {
     Call<JSONResponseUser> getUserLogin(@Header("APIKEY") String key, @Query("username") String username, @Query("password") String password);
 //
 //
-//    @GET("foods")
-//    Call<JSONResponseFoods> getJSONFood(@Query("foodtype") String foodtype, @Header("api_key") String key);
+    @GET("post")
+    Call<JSONResponsePost> getPost(@Header("APIKEY") String key);
 //
 //
 //    @GET("foods")
