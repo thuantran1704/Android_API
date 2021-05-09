@@ -1,6 +1,5 @@
 package com.example.wibugrams.Fragments;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,7 +27,6 @@ public class LoginFragment extends Fragment {
     Button btn_login;
     ApiInterface service;
     final String key = "VSBG";
-    Activity activity = this.getActivity();
     public void LoginFragment() {
 
     }
@@ -60,7 +58,8 @@ public class LoginFragment extends Fragment {
                     service.getUserLogin(key, edtEmail.getText().toString(), edtPassword.getText().toString()).enqueue(new Callback<JSONResponseUser>() {
                         @Override
                         public void onResponse(Call<JSONResponseUser> call, Response<JSONResponseUser> response) {
-                            if(Integer.parseInt(response.body().getStatus())==1){
+                            if(Integer.parseInt(response.body().getStatus())==1)
+                            {
                                 Common.currentUser.setUsername(edtEmail.getText().toString());
 
                                 Toast.makeText(getActivity().getBaseContext().getApplicationContext(), "Sign in successfully !", Toast.LENGTH_SHORT).show();

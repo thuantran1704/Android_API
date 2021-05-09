@@ -74,4 +74,7 @@ dependencies {
     //Universal image loader
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
+
 }
