@@ -1,13 +1,11 @@
 package com.example.wibugrams.Fragments;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -18,9 +16,7 @@ import com.eschao.android.widget.elasticlistview.OnLoadListener;
 import com.eschao.android.widget.elasticlistview.OnUpdateListener;
 import com.example.wibugrams.Adapter.PostAdapter;
 import com.example.wibugrams.Common;
-import com.example.wibugrams.Home.HomeActivity;
 import com.example.wibugrams.Model.JSONResponsePost;
-import com.example.wibugrams.Model.JSONResponseUser;
 import com.example.wibugrams.Model.Post;
 import com.example.wibugrams.R;
 import com.example.wibugrams.Retrofit.ApiInterface;
@@ -35,7 +31,7 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements OnUpdateListener, OnLoadListener {
     private static final String TAG = "HomeFragment";
-    final String key = "VSBG";
+    final String key = "APIKEY";
     private ArrayList<Post> posts;
     PostAdapter viewPagerAdapter;
     //    private ListView mListView;
@@ -60,17 +56,15 @@ public class HomeFragment extends Fragment implements OnUpdateListener, OnLoadLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        viewPagerAdapter.notifyDataSetChanged();
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = (View) inflater.inflate(R.layout.fragment_home, container, false);
+        View view = (View) inflater.inflate(R.layout.fragment_login, container, false);
 
-        mListView = view.findViewById(R.id.listViewHome);
+        mListView = view.findViewById(R.id.listView);
 
         service = Common.getGsonService();
         init();
@@ -79,36 +73,37 @@ public class HomeFragment extends Fragment implements OnUpdateListener, OnLoadLi
     }
 
     private void init() {
-        Log.e("xxx","adadasda");
         if (Common.isConnectedToInternet(getActivity().getBaseContext())) {
             ProgressDialog mDialog = new ProgressDialog(getActivity().getBaseContext().getApplicationContext());
-            service.getPost(key).enqueue(new Callback<JSONResponsePost>() {
-                @Override
-                public void onResponse(Call<JSONResponsePost> call, Response<JSONResponsePost> response) {
+            loadJSONPost();
 
-                    JSONResponsePost jsonResponsePost = response.body();
-                    if (jsonResponsePost.getData() == null) {
-                        Toast.makeText(getActivity(), "This Home does not has Post", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    posts = new ArrayList<>(Arrays.asList(jsonResponsePost.getData()));
-                    Log.e("aaa","ngngng"+jsonResponsePost.getStatus());
-                    viewPagerAdapter = new PostAdapter(getActivity(), R.layout.fragment_home, posts);
-                    mListView.setAdapter(viewPagerAdapter);
-                    viewPagerAdapter.notifyDataSetChanged();
-
-                }
-
-                @Override
-                public void onFailure(Call<JSONResponsePost> call, Throwable t) {
-                    Toast.makeText(getContext(), "Erro : "+ t, Toast.LENGTH_SHORT).show();
-                }
-            });
 //            mListView.scheduleLayoutAnimation();
+
         } else {
             Toast.makeText(getActivity(), "Please check your internet!!", Toast.LENGTH_SHORT).show();
 //            return;
         }
+    }
+
+    private void loadJSONPost() {
+        service.getPost(key).enqueue(new Callback<JSONResponsePost>() {
+            @Override
+            public void onResponse(Call<JSONResponsePost> call, Response<JSONResponsePost> response) {
+                JSONResponsePost jsonResponsePost = response.body();
+                if (jsonResponsePost.getData() == null) {
+                    Toast.makeText(getActivity(), "This Home does not has Post", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                posts = new ArrayList<>(Arrays.asList(jsonResponsePost.getData()));
+                viewPagerAdapter = new PostAdapter(getActivity(), R.layout.activity_home, posts);
+                mListView.setAdapter(viewPagerAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<JSONResponsePost> call, Throwable t) {
+                Toast.makeText(getContext(), "Erro : "+ t, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
 

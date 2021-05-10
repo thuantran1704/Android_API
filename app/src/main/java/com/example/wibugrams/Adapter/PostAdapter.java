@@ -1,7 +1,6 @@
 package com.example.wibugrams.Adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +47,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
         View row = convertView;
         PostHolder holder = null;
 
-        //Log.e("xxx","adadasda");
         if (row != null) {
             holder = (PostHolder) row.getTag();
         } else {

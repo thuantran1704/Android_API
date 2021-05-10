@@ -9,10 +9,8 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import com.example.wibugrams.Fragments.AddNewFragment;
 import com.example.wibugrams.Fragments.FavoriteFragment;
 import com.example.wibugrams.Fragments.HomeFragment;
-import com.example.wibugrams.Fragments.LoginFragment;
 import com.example.wibugrams.Fragments.ProfileFragment;
 import com.example.wibugrams.Fragments.SearchFragment;
-import com.example.wibugrams.Fragments.SignUpFragment;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
