@@ -92,7 +92,7 @@ public class HomeFragment extends Fragment implements OnUpdateListener, OnLoadLi
                         return;
                     }
                     posts = new ArrayList<>(Arrays.asList(jsonResponsePost.getData()));
-                    Log.e("aaa","ngngng"+jsonResponsePost);
+                    Log.e("aaa","ngngng"+jsonResponsePost.getStatus());
                     viewPagerAdapter = new PostAdapter(getActivity(), R.layout.fragment_home, posts);
                     mListView.setAdapter(viewPagerAdapter);
                     viewPagerAdapter.notifyDataSetChanged();
