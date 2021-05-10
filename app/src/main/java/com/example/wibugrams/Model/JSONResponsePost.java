@@ -2,9 +2,9 @@ package com.example.wibugrams.Model;
 
 public class JSONResponsePost {
     private String status;
-    private Post data;
+    private Post []data;
 
-    public JSONResponsePost(String status, Post data) {
+    public JSONResponsePost(String status, Post []data) {
         this.status = status;
         this.data = data;
     }
@@ -20,11 +20,11 @@ public class JSONResponsePost {
         this.status = status;
     }
 
-    public Post getData() {
+    public Post[] getData() {
         return data;
     }
 
-    public void setData(Post data) {
+    public void setData(Post[] data) {
         this.data = data;
     }
 }

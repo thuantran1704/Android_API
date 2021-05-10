@@ -3,7 +3,7 @@
     android:layout_height="match_parent">
 
     <com.eschao.android.widget.elasticlistview.ElasticListView
-        android:id="@+id/listView"
+        android:id="@+id/listViewHome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@null"
@@ -15,6 +15,16 @@
         android:overScrollMode="never"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:scrollbars="none" />
+        android:scrollbars="none"
+        >
+
+    </com.eschao.android.widget.elasticlistview.ElasticListView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:textSize="50dp"
+
+        android:id="@+id/tvResult"/>
 
 </RelativeLayout>
