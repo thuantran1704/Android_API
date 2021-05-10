@@ -31,7 +31,7 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements OnUpdateListener, OnLoadListener {
     private static final String TAG = "HomeFragment";
-    final String key = "APIKEY";
+    final String key = "VSBG";
     private ArrayList<Post> posts;
     PostAdapter viewPagerAdapter;
     //    private ListView mListView;
@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment implements OnUpdateListener, OnLoadLi
         // Inflate the layout for this fragment
         View view = (View) inflater.inflate(R.layout.fragment_login, container, false);
 
-        mListView = view.findViewById(R.id.listView);
+        mListView = view.findViewById(R.id.listViewHome);
 
         service = Common.getGsonService();
         init();
@@ -95,7 +95,7 @@ public class HomeFragment extends Fragment implements OnUpdateListener, OnLoadLi
                     return;
                 }
                 posts = new ArrayList<>(Arrays.asList(jsonResponsePost.getData()));
-                viewPagerAdapter = new PostAdapter(getActivity(), R.layout.activity_home, posts);
+                viewPagerAdapter = new PostAdapter(getActivity(), R.layout.fragment_home, posts);
                 mListView.setAdapter(viewPagerAdapter);
             }
 
