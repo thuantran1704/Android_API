@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -20,6 +22,7 @@ import com.example.wibugrams.Model.JSONResponsePost;
 import com.example.wibugrams.Model.Post;
 import com.example.wibugrams.R;
 import com.example.wibugrams.Retrofit.ApiInterface;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,9 +36,10 @@ public class HomeFragment extends Fragment implements OnUpdateListener, OnLoadLi
     private static final String TAG = "HomeFragment";
     final String key = "VSBG";
     private ArrayList<Post> posts;
-    PostAdapter viewPagerAdapter;
+    PostAdapter viewPagerAdapter = null;
     //    private ListView mListView;
     ElasticListView mListView;
+
     RecyclerView mRecyclerView;
     ApiInterface service;
 
@@ -62,7 +66,7 @@ public class HomeFragment extends Fragment implements OnUpdateListener, OnLoadLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = (View) inflater.inflate(R.layout.fragment_login, container, false);
+        View view = (View) inflater.inflate(R.layout.fragment_home, container, false);
 
         mListView = view.findViewById(R.id.listViewHome);
 
@@ -76,6 +80,8 @@ public class HomeFragment extends Fragment implements OnUpdateListener, OnLoadLi
         if (Common.isConnectedToInternet(getActivity().getBaseContext())) {
             ProgressDialog mDialog = new ProgressDialog(getActivity().getBaseContext().getApplicationContext());
             loadJSONPost();
+
+            //loadJSONPostID();
 
 //            mListView.scheduleLayoutAnimation();
 
@@ -95,8 +101,12 @@ public class HomeFragment extends Fragment implements OnUpdateListener, OnLoadLi
                     return;
                 }
                 posts = new ArrayList<>(Arrays.asList(jsonResponsePost.getData()));
+                Log.e("aaaa","brvdfvdv"+jsonResponsePost.getStatus());
                 viewPagerAdapter = new PostAdapter(getActivity(), R.layout.fragment_home, posts);
                 mListView.setAdapter(viewPagerAdapter);
+                viewPagerAdapter.notifyDataSetChanged();
+
+
             }
 
             @Override
@@ -105,6 +115,8 @@ public class HomeFragment extends Fragment implements OnUpdateListener, OnLoadLi
             }
         });
     }
+
+
 }
 
 

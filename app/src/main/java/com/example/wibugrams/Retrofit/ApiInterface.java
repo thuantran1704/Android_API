@@ -8,6 +8,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiInterface {
@@ -20,6 +21,9 @@ public interface ApiInterface {
 //
     @GET("post")
     Call<JSONResponsePost> getPost(@Header("APIKEY") String key);
+
+    @GET("post/user/{id}")
+    Call<JSONResponsePost> getPostUserID(@Header("APIKEY") String key, @Path("id") String id);
 //
 //
 //    @GET("foods")

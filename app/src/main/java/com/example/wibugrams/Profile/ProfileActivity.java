@@ -10,13 +10,20 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.wibugrams.Adapter.PostAdapter;
+import com.example.wibugrams.Adapter.ProfileAdapter;
+import com.example.wibugrams.Common;
+import com.example.wibugrams.Model.JSONResponsePost;
+import com.example.wibugrams.Model.Post;
 import com.example.wibugrams.R;
+import com.example.wibugrams.Retrofit.ApiInterface;
 import com.example.wibugrams.Utils.BottomNavigationViewHelper;
 import com.example.wibugrams.Utils.GridImageAdapter;
 import com.example.wibugrams.Utils.SectionsStatePagerAdapter;
@@ -24,13 +31,22 @@ import com.example.wibugrams.Utils.UniversalImageLoader;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "ProfileActivity";
     private static final int ACTIVITY_NUM = 4;
     private static final int NUM_GRID_COLUMNS = 3;
+
+    ProfileAdapter viewPagerAdapter = null;
+    private ArrayList<Post> posts;
+    final String key = "VSBG";
+    String userId="";
 
     private Context mContext = ProfileActivity.this;
     private CircleImageView profilePhoto;
@@ -40,6 +56,9 @@ public class ProfileActivity extends AppCompatActivity {
     private ViewPager mViewpager;
     private ProgressBar progressBar;
 
+    private GridView gridViewProfile;
+
+    ApiInterface service;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,12 +66,66 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         mViewpager = findViewById(R.id.container);
         profilePhoto = findViewById(R.id.profile_photo);
-        Log.d(TAG, "onCreate: starting.");
-        setupBottomNavigationView();
-        setupToolbar();
-        setupProfilePhoto();
-        tempGridSetup();
 
+        gridViewProfile = findViewById(R.id.gridView);
+
+        Log.d(TAG, "onCreate: starting.");
+
+        service = Common.getGsonService();
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            userId = bundle.getString("UserID");
+            Toast.makeText(this, "Show value: " + userId, Toast.LENGTH_SHORT).show();
+
+            loadProfile(userId);
+        }
+
+        /*if(!userId.isEmpty()) {
+            loadProfile(userId);*/
+        /*if(getIntent() != null){
+           userId  = getIntent().getStringExtra("UserID");
+
+        }
+        if(!userId.isEmpty() && userId != null){
+            loadProfile(userId);
+        }*/
+
+        setupBottomNavigationView();
+        //setupToolbar();
+        //setupProfilePhoto();
+        //tempGridSetup();
+
+    }
+
+    private void loadProfile(String userId) {
+
+        Log.e("ccc","sadad"+userId);
+        //userId  = getIntent().getExtras().getString("UserID");
+        service.getPostUserID(key,userId).enqueue(new Callback<JSONResponsePost>() {
+            @Override
+            public void onResponse(Call<JSONResponsePost> call, Response<JSONResponsePost> response) {
+                JSONResponsePost jsonResponsePost = response.body();
+                if (jsonResponsePost.getData() == null) {
+                    Toast.makeText(getBaseContext(), "This Profile does not has Post", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                posts = new ArrayList<>(Arrays.asList(jsonResponsePost.getData()));
+                Log.e("aaaa","brvdfvdv"+jsonResponsePost.getStatus());
+                //viết profile adapter để set giao diện cho 1 tấm hình hiển thị ở layout center profile...trong profile adapter thì row = inflater.inflate(R.layout.profile_item_image, parent, false);
+                viewPagerAdapter = new ProfileAdapter(getBaseContext(), R.layout.layout_center_profile, posts);
+                gridViewProfile.setAdapter(viewPagerAdapter);
+                viewPagerAdapter.notifyDataSetChanged();
+
+
+            }
+
+            @Override
+            public void onFailure(Call<JSONResponsePost> call, Throwable t) {
+                Toast.makeText(getBaseContext(), "Erro : "+ t, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 

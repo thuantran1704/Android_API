@@ -14,9 +14,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.wibugrams.Common;
-import com.example.wibugrams.Home.HomeActivity;
-import com.example.wibugrams.Interface.ItemClickListener;
 import com.example.wibugrams.Model.Post;
 import com.example.wibugrams.Profile.ProfileActivity;
 import com.example.wibugrams.R;
@@ -26,28 +23,28 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PostAdapter extends ArrayAdapter<Post> {
+public class ProfileAdapter extends ArrayAdapter<Post> {
     Context context;
     int resource;
     Post post = null;
     ArrayList<Post> data = null;
     PostAdapter adapter;
-    PostHolder holder = null;
+    ProfileHolder holder = null;
 
 
-    public PostAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Post> data) {
+    public ProfileAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Post> data) {
         super(context, resource);
         this.context = context;
         this.resource = resource;
         this.data = data;
     }
 
-    class PostHolder {
+    class ProfileHolder {
         CircleImageView img_profile;
         TextView username, count_like, publisher, description, no_of_comments;
         ImageView post_image, like, comment;
 
-        public PostHolder() {
+        public ProfileHolder() {
         }
     }
 
@@ -63,43 +60,41 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 
         if (row != null) {
-            holder = (PostHolder) row.getTag();
+            holder = (ProfileHolder) row.getTag();
         } else {
-            holder = new PostHolder();
+            holder = new ProfileHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            row = inflater.inflate(R.layout.post_item, parent, false);
+            row = inflater.inflate(R.layout.profile_item_image, parent, false);
 
-            holder.username = row.findViewById(R.id.username);
-            holder.img_profile = row.findViewById(R.id.img_profile);
-            holder.description = row.findViewById(R.id.description);
-            holder.publisher = row.findViewById(R.id.publisher);
-            holder.post_image = row.findViewById(R.id.post_image);
-            holder.like = row.findViewById(R.id.like);
-            holder.comment = row.findViewById(R.id.comment);
+
+            holder.post_image = row.findViewById(R.id.imageProfileItem);
+
 
             row.setTag(holder);
         }
 
-         Post post = data.get(position);
-        holder.username.setText(post.getUser().getUsername());
-//            holder.img_profile.setImageDrawable(post.getImage());
-//            Picasso.with(getBaseContext()).load(post.getImage());
+        Post post = data.get(position);
+        //holder.username.setText(post.getUser().getUsername());
 
-        //holder.post_image.setText(post.getUser().getUsername());
-        holder.description.setText(post.getContent());
+
+
+        //holder.description.setText(post.getContent());
 
         //Picasso.with(getBaseContext()).load(post.getImage()).into(holder.post_image);
-        Picasso.get().load(data.get(position).getImage())
+//        Picasso.get().load(data.get(position).getImage())
+//                .into(holder.post_image);
+        Picasso.get().load("https://dienthoaivui.com.vn/wp-content/uploads/2020/10/hinh-nen-iphone-12-19-1024x1024.jpg")
                 .into(holder.post_image);
         /*holder.username.setText(post.getUser().getUsername());
         holder.username.setText(post.getUser().getUsername());
         holder.username.setText(post.getUser().getUsername());*/
 
 
-        holder.img_profile.setOnClickListener(new View.OnClickListener() {
+        //khi click vào 1 hình ảnh trong lưới thì sẽ hiển thị bài đăng chi tiết của ảnh đang click (CHƯA VIẾT)
+        holder.post_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentHome = new Intent(getContext(), ProfileActivity.class);
+                Intent intentHome = new Intent(getContext(), ProfileActivity.class);    //thay thế thành PostActivity...xml là post_item
                 Bundle bundle = new Bundle();
                 bundle.putString("UserID", String.valueOf(post.getUser().getId()));
                 intentHome.putExtras(bundle);
@@ -123,6 +118,3 @@ public class PostAdapter extends ArrayAdapter<Post> {
         return row;
     }
 }
-
-
-
